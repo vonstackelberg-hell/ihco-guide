@@ -11,7 +11,7 @@ html = html.replace(
     f"Promise.resolve({json.dumps(data)})\n  .then(data => {{"
 )
 
-with open('ihco_map_embedded.html', 'w', encoding='utf-8') as f:
+with open('index.html', 'w', encoding='utf-8') as f:
     f.write(html)
 
-print("Fertig! Öffne ihco_map_embedded.html")
+print("Fertig! Öffne index.html")
