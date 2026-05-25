@@ -2,14 +2,16 @@
 
 > *"Don't Panic."* – Douglas Adams
 
+## ⚠️ Disclaimer
+Privates Fan-Projekt, nicht affiliiert mit Frontier Developments.
+Elite Dangerous ist ein Trademark von Frontier Developments.
+
 ## 📋 Produktvision
 
 > Ein Tool für die Unterstützung von BGS- und Kolonisierungs-Aktivitäten einer einzelnen Squad – mit Einblick in das weitere Umfeld.
 
 **Squadron:** Intergalactic Hitchhiker's Co. [IHCO]  
 **Fraktion:** Intergalactic Hitchhiker's Coalition  
-**Machtfraktion:** Pranav Antal  
-**Hauptstützpunkt:** Arietis Sector FW-W c1-11 – Punk Platform
 
 ---
 
