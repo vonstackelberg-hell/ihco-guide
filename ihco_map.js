@@ -23,13 +23,50 @@ bgGeo.setAttribute('position', new THREE.Float32BufferAttribute(bgVerts, 3));
 const bgMat = new THREE.PointsMaterial({ color: 0x334433, size: 0.8 });
 scene.add(new THREE.Points(bgGeo, bgMat));
 
-// Materials
-const matControlled = new THREE.PointsMaterial({ color: 0x33ff33, size: 3, sizeAttenuation: true });
-const matPresent    = new THREE.PointsMaterial({ color: 0x3399ff, size: 2, sizeAttenuation: true });
+// --- Glowing Sprite Textur ---
+function createGlowTexture(color) {
+    const size = 64;
+    const c = document.createElement('canvas');
+    c.width = c.height = size;
+    const ctx = c.getContext('2d');
+    const half = size / 2;
+    const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
+    gradient.addColorStop(0.0, color.replace(')', ', 1.0)').replace('rgb', 'rgba'));
+    gradient.addColorStop(0.3, color.replace(')', ', 0.6)').replace('rgb', 'rgba'));
+    gradient.addColorStop(0.5, color.replace(')', ', 0.1)').replace('rgb', 'rgba'));
+    gradient.addColorStop(1.0, color.replace(')', ', 0.0)').replace('rgb', 'rgba'));
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, size, size);
+    return new THREE.CanvasTexture(c);
+}
+
+const texControlled = createGlowTexture('rgb(51, 255, 51)');
+const texPresent    = createGlowTexture('rgb(51, 153, 255)');
+
+// Materials mit Glow + AdditiveBlending
+const matControlled = new THREE.PointsMaterial({
+    color: 0x33ff33,
+    size: 8,
+    sizeAttenuation: true,
+    map: texControlled,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+});
+
+const matPresent = new THREE.PointsMaterial({
+    color: 0x3399ff,
+    size: 6,
+    sizeAttenuation: true,
+    map: texPresent,
+    transparent: true,
+    depthWrite: false,
+    blending: THREE.AdditiveBlending
+});
 
 // Raycaster for hover
 const raycaster = new THREE.Raycaster();
-raycaster.params.Points.threshold = 3;
+raycaster.params.Points.threshold = 5;
 const mouse = new THREE.Vector2();
 
 let systemData = [];
