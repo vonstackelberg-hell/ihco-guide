@@ -1,0 +1,64 @@
+name: Update IHCO Map
+
+on:
+  schedule:
+    - cron: '0 6 * * 2'  # Jeden Dienstag um 06:00 UTC (nach Spansh weekly dump)
+  workflow_dispatch:       # Manuell auslösbar
+  push:
+    branches: [main]
+    paths:
+      - 'ihco_map.html'   # Neu deployen wenn Karte geändert
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Datenverzeichnis erstellen
+        run: mkdir -p data
+
+      - name: factions.json.gz herunterladen
+        run: |
+          echo "Lade factions.json.gz (~14MB)..."
+          curl -L -o data/factions.json.gz https://downloads.spansh.co.uk/factions.json.gz
+
+      - name: systems_1week.json.gz herunterladen
+        run: |
+          echo "Lade systems_1week.json.gz (~26MB)..."
+          curl -L -o data/systems_1week.json.gz https://downloads.spansh.co.uk/systems_1week.json.gz
+
+      - name: ihco_filter.py ausführen (Delta-Merge)
+        run: python ihco_filter.py
+
+      - name: embed_map.py ausführen (index.html generieren)
+        run: python embed_map.py
+
+      - name: Änderungen committen (ihco_systems.json)
+        run: |
+          git config user.name "IHCO Autopilot"
+          git config user.email "actions@github.com"
+          git add ihco_systems.json
+          git diff --staged --quiet || git commit -m "🤖 Auto-Update: IHCO Systemdaten $(date +'%Y-%m-%d')"
+          git push
+
+      - name: GitHub Pages deployen
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: github-pages
+
+      - name: index.html als Pages Artifact hochladen
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
