@@ -10,8 +10,27 @@ Elite Dangerous ist ein Trademark von Frontier Developments.
 
 > Ein Tool für die Unterstützung von BGS- und Kolonisierungs-Aktivitäten einer einzelnen Squad – mit Einblick in das weitere Umfeld.
 
-**Squadron:** Intergalactic Hitchhiker's Co. [IHCO]  
-**Fraktion:** Intergalactic Hitchhiker's Coalition  
+### 🌍 Szenario 1: Clusterbildung
+- Systeme in Cluster unterteilen zur besserern Aufgabenteilung und Planung
+- Anzeige von kontrollierenden und anwesenden Fraktionen
+
+### 🌍 Szenario 2: Internationalisierung (i18n)
+- Die IHCO vereint Spieler aus aller Welt
+- **Standardsprache:** Englisch
+- Weitere Sprachen nach Bedarf der Squad
+- Alle UI-Texte müssen externalisiert werden – keine hardcodierten Strings im Code
+- Spracherkennung via `navigator.language`, Fallback immer Englisch
+- Geplante Struktur:
+```
+ihco-guide/
+└── locales/
+    ├── en.json    # Englisch (Standard)
+    ├── de.json    # Deutsch
+    └── ...
+```
+
+### 🌍 Szenario 3: Orientierung
+- Zur besseren Orientierung ein Gitternetz einblenden mit 10^n Angabe der Koordinaten für x und z
 
 ---
 
