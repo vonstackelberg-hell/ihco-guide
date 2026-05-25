@@ -72,6 +72,133 @@ const mouse = new THREE.Vector2();
 let systemData = [];
 let pointsControlled, pointsPresent;
 
+// ─────────────────────────────────────────────
+// Infinite Grid (XZ-Ebene, anti-aliased Shader)
+// Autor-Technik: Fyrestar / discourse.threejs.org/t/8377
+// Koordinaten: scene-units × 2 = Ly
+// ─────────────────────────────────────────────
+
+// Hilfsfunktion: Canvas-Textur für Grid-Labels
+function makeGridLabelTexture(text) {
+    const c = document.createElement('canvas');
+    c.width = 256; c.height = 64;
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, 256, 64);
+    ctx.font = 'bold 28px monospace';
+    ctx.fillStyle = 'rgba(100,180,100,0.75)';
+    ctx.fillText(text, 8, 44);
+    return new THREE.CanvasTexture(c);
+}
+
+function createInfiniteGrid(size1, size2, color, distance) {
+    const geo = new THREE.PlaneBufferGeometry(2, 2, 1, 1);
+    const mat = new THREE.ShaderMaterial({
+        side: THREE.DoubleSide,
+        uniforms: {
+            uSize1:    { value: size1 },
+            uSize2:    { value: size2 },
+            uColor:    { value: color },
+            uDistance: { value: distance }
+        },
+        transparent: true,
+        depthWrite: false,
+        vertexShader: `
+            varying vec3 worldPosition;
+            uniform float uDistance;
+            void main() {
+                vec3 pos = position.xzy * uDistance;
+                pos.xz += cameraPosition.xz;
+                worldPosition = pos;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+            }
+        `,
+        fragmentShader: `
+            varying vec3 worldPosition;
+            uniform float uSize1;
+            uniform float uSize2;
+            uniform vec3 uColor;
+            uniform float uDistance;
+
+            float getGrid(float size) {
+                vec2 r = worldPosition.xz / size;
+                vec2 grid = abs(fract(r - 0.5) - 0.5) / fwidth(r);
+                float line = min(grid.x, grid.y);
+                return 1.0 - min(line, 1.0);
+            }
+
+            void main() {
+                float d = 1.0 - min(distance(cameraPosition.xz, worldPosition.xz) / uDistance, 1.0);
+                float g1 = getGrid(uSize1);
+                float g2 = getGrid(uSize2);
+                gl_FragColor = vec4(uColor.rgb, mix(g2, g1, g1) * pow(d, 3.0));
+                gl_FragColor.a = mix(0.5 * gl_FragColor.a, gl_FragColor.a, g2);
+                if (gl_FragColor.a <= 0.0) discard;
+            }
+        `,
+        extensions: { derivatives: true }
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.frustumCulled = false;
+    return mesh;
+}
+
+// Grid erstellen (standardmäßig unsichtbar)
+// size1 = feines Gitter: 50 scene-units = 100 Ly
+// size2 = grobes Gitter: 250 scene-units = 500 Ly
+const gridMesh = createInfiniteGrid(
+    50,
+    250,
+    new THREE.Color(0.2, 0.5, 0.2),
+    3000
+);
+gridMesh.visible = true;
+scene.add(gridMesh);
+
+// Grid-Achsen-Labels (X / Z, alle 500 Ly = 250 scene-units)
+const gridLabels = [];
+const LABEL_STEP = 250;   // scene-units
+const LABEL_RANGE = 2000; // scene-units
+
+function buildGridLabels() {
+    // Alte Labels entfernen
+    gridLabels.forEach(s => scene.remove(s));
+    gridLabels.length = 0;
+
+    for (let xi = -LABEL_RANGE; xi <= LABEL_RANGE; xi += LABEL_STEP) {
+        for (let zi = -LABEL_RANGE; zi <= LABEL_RANGE; zi += LABEL_STEP) {
+            if (xi === 0 && zi === 0) continue; // Ursprung überspringen
+            const lx = Math.round(xi * 2);  // Ly
+            const lz = Math.round(zi * 2);  // Ly
+            const label = `${lx},${lz}`;
+            const tex = makeGridLabelTexture(label);
+            const spriteMat = new THREE.SpriteMaterial({
+                map: tex,
+                transparent: true,
+                depthWrite: false,
+                opacity: 0.6
+            });
+            const sprite = new THREE.Sprite(spriteMat);
+            sprite.position.set(xi, 0, zi);
+            sprite.scale.set(60, 15, 1);
+            sprite.visible = true;
+            scene.add(sprite);
+            gridLabels.push(sprite);
+        }
+    }
+}
+buildGridLabels();
+
+// Ursprungs-Label (0,0)
+const originTex = makeGridLabelTexture('0,0 Ly');
+const originSprite = new THREE.Sprite(new THREE.SpriteMaterial({
+    map: originTex, transparent: true, depthWrite: false, opacity: 0.8
+}));
+originSprite.position.set(0, 0, 0);
+originSprite.scale.set(80, 20, 1);
+originSprite.visible = true;
+scene.add(originSprite);
+gridLabels.push(originSprite);
+
 // Load JSON
 fetch('ihco_systems.json')
     .then(r => r.json())
@@ -196,6 +323,12 @@ function toggleGroup(group) {
     if (group === 'present' && pointsPresent) {
         pointsPresent.visible = !pointsPresent.visible;
         document.getElementById('btnPresent').classList.toggle('off', !pointsPresent.visible);
+    }
+    if (group === 'grid') {
+        const show = !gridMesh.visible;
+        gridMesh.visible = show;
+        gridLabels.forEach(s => s.visible = show);
+        document.getElementById('btnGrid').classList.toggle('off', !show);
     }
 }
 
