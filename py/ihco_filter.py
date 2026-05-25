@@ -1,7 +1,13 @@
 import gzip
 import json
+import os
 
-with gzip.open('..\\data\\factions.json.gz', 'rb') as f:
+# Pfade immer relativ zum Script selbst - funktioniert egal von wo gestartet
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(BASE_DIR, '..', 'data')
+OUT_DIR  = os.path.join(BASE_DIR, '..', 'data')
+
+with gzip.open(os.path.join(DATA_DIR, 'factions.json.gz'), 'rb') as f:
     data = json.load(f)
 
 ihco = [f for f in data if f['name'] == 'Intergalactic Hitchhiker\'s Coalition']
@@ -19,11 +25,12 @@ ihco_ids = {entry.get('systemId64') for entry in systems.values()}
 # updateTime aus systems_1month.json.gz - nur IHCO Systeme mergen
 print("Lade Spansh Systemdaten...")
 spansh_lookup = {}
-with gzip.open('..\\data\\systems_1month.json.gz', 'rb') as f:
+with gzip.open(os.path.join(DATA_DIR, 'systems_1month.json.gz'), 'rb') as f:
     spansh_data = json.load(f)
-    for s in spansh_data:
-        if s['id64'] in ihco_ids:
-            spansh_lookup[s['id64']] = s['updateTime']
+
+for s in spansh_data:
+    if s['id64'] in ihco_ids:
+        spansh_lookup[s['id64']] = s['updateTime']
 
 matched = 0
 for entry in systems.values():
@@ -34,7 +41,7 @@ for entry in systems.values():
 
 ihco[0]['systems'] = list(systems.values())
 
-with open('ihco_systems.json', 'w') as f:
+with open(os.path.join(OUT_DIR, '..', 'ihco_systems.json'), 'w') as f:
     json.dump(ihco, f, indent=2)
 
 print(f"Systeme gesamt: {len(systems)}")
