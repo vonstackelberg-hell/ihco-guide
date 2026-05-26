@@ -12,16 +12,7 @@ const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerH
 camera.position.set(0, 200, 500);
 
 // Background stars
-const bgGeo = new THREE.BufferGeometry();
-const bgVerts = [];
-for (let i = 0; i < 5000; i++) {
-    bgVerts.push((Math.random() - 0.5) * 8000);
-    bgVerts.push((Math.random() - 0.5) * 8000);
-    bgVerts.push((Math.random() - 0.5) * 8000);
-}
-bgGeo.setAttribute('position', new THREE.Float32BufferAttribute(bgVerts, 3));
-const bgMat = new THREE.PointsMaterial({ color: 0x334433, size: 0.8 });
-scene.add(new THREE.Points(bgGeo, bgMat));
+scene.add(new BackgroundStars);
 
 // --- Glowing Sprite Textur ---
 function createGlowTexture(color) {
@@ -39,30 +30,6 @@ function createGlowTexture(color) {
     ctx.fillRect(0, 0, size, size);
     return new THREE.CanvasTexture(c);
 }
-
-const texControlled = createGlowTexture('rgb(51, 255, 51)');
-const texPresent    = createGlowTexture('rgb(51, 153, 255)');
-
-// Materials mit Glow + AdditiveBlending
-const matControlled = new THREE.PointsMaterial({
-    color: 0x33ff33,
-    size: IHCO_CONFIG.matControlledSize,
-    sizeAttenuation: false,
-    map: texControlled,
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending
-});
-
-const matPresent = new THREE.PointsMaterial({
-    color: 0x3399ff,
-    size: IHCO_CONFIG.matPresentSize,
-    sizeAttenuation: false,
-    map: texPresent,
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending
-});
 
 // Raycaster for hover
 const raycaster = new THREE.Raycaster();
@@ -229,18 +196,10 @@ fetch('ihco_systems.json')
         });
 
         // Controlled points
-        const geoC = new THREE.BufferGeometry();
-        geoC.setAttribute('position', new THREE.Float32BufferAttribute(controlled.verts, 3));
-        pointsControlled = new THREE.Points(geoC, matControlled);
-        pointsControlled.userData = controlled.data;
-        scene.add(pointsControlled);
+        scene.add(new ControlledStar());
 
         // Present points
-        const geoP = new THREE.BufferGeometry();
-        geoP.setAttribute('position', new THREE.Float32BufferAttribute(present.verts, 3));
-        pointsPresent = new THREE.Points(geoP, matPresent);
-        pointsPresent.userData = present.data;
-        scene.add(pointsPresent);
+        scene.add(new PresentStar());
 
         systemData = [...controlled.data, ...present.data];
     });
