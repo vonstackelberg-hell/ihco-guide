@@ -54,7 +54,6 @@ class SystemLayer {
 
     // Daten laden und Punkte zur Scene hinzufügen
     load(controlled, present) {
-        // Controlled
         const texC = createGlowTexture('rgb(51, 255, 51)');
         const matC = new THREE.PointsMaterial({
             color: 0x33ff33,
@@ -71,7 +70,6 @@ class SystemLayer {
         this.pointsControlled.userData = controlled.data;
         this.scene.add(this.pointsControlled);
 
-        // Present
         const texP = createGlowTexture('rgb(51, 153, 255)');
         const matP = new THREE.PointsMaterial({
             color: 0x3399ff,
@@ -153,6 +151,35 @@ class SystemLayer {
             this.scene.remove(this.searchHighlight);
             this.searchHighlight = null;
         }
+    }
+
+    // ─────────────────────────────────────────────
+    // Nachbarn im Umkreis zurückgeben
+    // Fix 1: nur sichtbare Systeme (controlled/present toggle)
+    // Fix 2: Maximum per Config begrenzt
+    // ─────────────────────────────────────────────
+    getNeighbors(hoveredSystem, sphericalRadius) {
+        if (!hoveredSystem || sphericalRadius > IHCO_CONFIG.labelMaxZoomRadius) return [];
+
+        const dist = (a, b) => Math.sqrt(
+            Math.pow(a.x - b.x, 2) +
+            Math.pow(a.y - b.y, 2) +
+            Math.pow(a.z - b.z, 2)
+        );
+
+        // Nur sichtbare Gruppen berücksichtigen
+        const showControlled = this.pointsControlled && this.pointsControlled.visible;
+        const showPresent    = this.pointsPresent    && this.pointsPresent.visible;
+
+        return this.systemData
+            .filter(s => {
+                if (s.name === hoveredSystem.name) return false;
+                if (s.controlled  && !showControlled) return false;
+                if (!s.controlled && !showPresent)    return false;
+                return dist(s, hoveredSystem) <= IHCO_CONFIG.labelNeighborRadius;
+            })
+            .sort((a, b) => dist(a, hoveredSystem) - dist(b, hoveredSystem))
+            .slice(0, IHCO_CONFIG.labelMaxNeighbors);
     }
 
     // System nach Name suchen

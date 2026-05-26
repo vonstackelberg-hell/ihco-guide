@@ -11,11 +11,84 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 10000);
 camera.position.set(0, 200, 500);
 
+// SVG-Overlay für Verbindungslinien
+const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+svg.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;';
+document.body.appendChild(svg);
+
 // Hintergrundsterne
 new BackgroundStars(scene);
 
 // IHCO-Systemschicht
 const layers = new SystemLayer(scene);
+
+// Zuletzt gehoverten Stern merken (für Linien-Update beim Zoom)
+let lastHovered = null;
+
+// 3D-Position → 2D Bildschirmkoordinaten
+function toScreenPos(x, y, z) {
+    const vec = new THREE.Vector3(x * 0.5, y * 0.5, z * 0.5);
+    vec.project(camera);
+    return {
+        x: ( vec.x * 0.5 + 0.5) * window.innerWidth,
+        y: (-vec.y * 0.5 + 0.5) * window.innerHeight
+    };
+}
+
+// SVG-Linien und Hover-Div aktualisieren
+function updateHoverUI(hoveredSystem, neighbors) {
+
+    // SVG leeren
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    if (!hoveredSystem) {
+		document.getElementById('hover').innerHTML = '';
+        return;
+    }
+
+    // Hover-Div: gehoverten Stern
+    const color = hoveredSystem.controlled ? '#33ff33' : '#3399ff';
+    let html = `${hoveredSystem.name}<br>
+        <span style="color:${color}88">
+        ${hoveredSystem.controlled ? '● Kontrolliert' : '● Präsent'}<br>
+        x: ${hoveredSystem.x.toFixed(1)} y: ${hoveredSystem.y.toFixed(1)} z: ${hoveredSystem.z.toFixed(1)} Ly
+        ${hoveredSystem.updateTime ? '<br>🕒 ' + hoveredSystem.updateTime.substring(0, 10) : ''}
+        </span>`;
+
+    // Nachbarn anhängen mit ID für Linien-Ankerpunkt
+    if (neighbors.length > 0) {
+        html += `<hr style="border-color:#33ff3344;margin:6px 0;">`;
+        neighbors.forEach((n, i) => {
+            const nc = n.controlled ? '#33ff33' : '#3399ff';
+            html += `<span id="neighbor-${i}" style="color:${nc}99">● ${n.name}</span><br>`;
+        });
+    }
+    document.getElementById('hover').innerHTML = html;
+
+    // SVG-Linien: von jedem Namenseintrag zu seinem Stern
+    if (neighbors.length > 0) {
+        requestAnimationFrame(() => {
+            neighbors.forEach((n, i) => {
+                const el = document.getElementById(`neighbor-${i}`);
+                if (!el) return;
+                const r = el.getBoundingClientRect();
+                const originX = r.left;
+                const originY = r.top + r.height / 2;
+                const pos = toScreenPos(n.x, n.y, n.z);
+                if (pos.x < 0 || pos.x > window.innerWidth ||
+                    pos.y < 0 || pos.y > window.innerHeight) return;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', originX);
+                line.setAttribute('y1', originY);
+                line.setAttribute('x2', pos.x);
+                line.setAttribute('y2', pos.y);
+                line.setAttribute('stroke', n.controlled ? '#33ff3366' : '#3399ff66');
+                line.setAttribute('stroke-width', '1');
+                svg.appendChild(line);
+            });
+        });
+    }
+}
 
 // ─────────────────────────────────────────────
 // Infinite Grid (XZ-Ebene, anti-aliased Shader)
@@ -173,7 +246,7 @@ const mouse = new THREE.Vector2();
 let isDragging = false, isRightDrag = false;
 let prevMouse = { x: 0, y: 0 };
 let spherical = { theta: 0, phi: Math.PI / 3, radius: 500 };
-raycaster.params.Points.threshold = raycaster.params.Points.threshold = spherical.radius * 0.005;
+raycaster.params.Points.threshold = IHCO_CONFIG.hoverThreshold;
 let target = new THREE.Vector3(0, 0, 0);
 
 canvas.addEventListener('mousedown', e => {
@@ -201,30 +274,37 @@ canvas.addEventListener('mousemove', e => {
     // Hover
     mouse.x =  (e.clientX / window.innerWidth)  * 2 - 1;
     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+	raycaster.params.Points.threshold = IHCO_CONFIG.hoverThreshold;
+
     raycaster.setFromCamera(mouse, camera);
 
-    const hoverDiv = document.getElementById('hover');
     const intersects = raycaster.intersectObjects(layers.getRaycastTargets());
+	console.log('intersects:', intersects.length, 'lastHovered:', lastHovered);
 
     if (intersects.length > 0) {
         const s = intersects[0].object.userData[intersects[0].index];
         if (s) {
-            hoverDiv.innerHTML = `${s.name}<br>
-                <span style="color:#33ff3388">
-                ${s.controlled ? '● Kontrolliert' : '● Präsent'}<br>
-                x: ${s.x.toFixed(1)} y: ${s.y.toFixed(1)} z: ${s.z.toFixed(1)} Ly
-                ${s.updateTime ? '<br>🕒 ' + s.updateTime.substring(0, 10) : ''}
-                </span>`;
+            lastHovered = s;
+            const neighbors = layers.getNeighbors(s, spherical.radius);
+            updateHoverUI(s, neighbors);
             layers.setHoverHighlight(s);
         }
     } else {
-        hoverDiv.innerHTML = '';
+        lastHovered = null;
+        updateHoverUI(null, []);
         layers.setHoverHighlight(null);
     }
 });
 
 canvas.addEventListener('wheel', e => {
     spherical.radius = Math.max(IHCO_CONFIG.minRadius, Math.min(IHCO_CONFIG.maxRadius, spherical.radius + e.deltaY * IHCO_CONFIG.zoomSpeed));
+    raycaster.params.Points.threshold = IHCO_CONFIG.hoverThreshold;
+	
+    // Linien neu berechnen beim Zoomen
+    if (lastHovered) {
+        const neighbors = layers.getNeighbors(lastHovered, spherical.radius);
+        updateHoverUI(lastHovered, neighbors);
+    }
 });
 
 window.addEventListener('resize', () => {
