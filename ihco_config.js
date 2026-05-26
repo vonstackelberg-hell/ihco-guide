@@ -25,8 +25,14 @@ const IHCO_CONFIG = {
     // starHighlightSize: Größe des Highlights bei ausgewählten Sternen oder Hoovereffekt
 	starHighlightSize : 1,
 
+	// Lables for hoovered starsystems
+	labelNeighborRadius: 50,   // Ly — Nachbarn im Umkreis anzeigen
+	labelMaxZoomRadius:  300,  // ab diesem spherical.radius keine Labels mehr
+	labelMaxNeighbors:   5,     // Maximale Anzahl Nachbarn in der Liste
+	hoverThresholdFactor: 0.005,
+	hoverThreshold: 3,
+
 	// StarSize
 	matControlledSize : 8,
 	matPresentSize: 6,
-
 };
