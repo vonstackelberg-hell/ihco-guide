@@ -17,8 +17,11 @@ with open(os.path.join(ROOT_DIR, 'ihco_map.css'), 'r', encoding='utf-8') as f:
 with open(os.path.join(ROOT_DIR, 'ihco_config.js'), 'r', encoding='utf-8') as f:
     config_js = f.read()
     
-with open(os.path.join(ROOT_DIR, './js/stars.js'), 'r', encoding='utf-8') as f:
+with open(os.path.join(ROOT_DIR, './js/stars/stars.js'), 'r', encoding='utf-8') as f:
     js_stars = f.read()
+
+with open(os.path.join(ROOT_DIR, './js/grid/grid.js'), 'r', encoding='utf-8') as f:
+    js_grid = f.read()
 
 with open(os.path.join(ROOT_DIR, 'ihco_map.js'), 'r', encoding='utf-8') as f:
     js = f.read()
@@ -33,7 +36,8 @@ js_embedded = js.replace(
 html_out = html
 html_out = html_out.replace('<link rel="stylesheet" href="ihco_map.css">', f'<style>\n{css}\n</style>')
 html_out = html_out.replace('<script src="ihco_config.js"></script>', f'<script>\n{config_js}\n</script>')
-html_out = html_out.replace('<script src="js/stars.js"></script>', f'<script>\n{js_stars}\n</script>')
+html_out = html_out.replace('<script src="js/stars/stars.js"></script>', f'<script>\n{js_stars}\n</script>')
+html_out = html_out.replace('<script src="js/grid/stars.js"></script>', f'<script>\n{js_grid}\n</script>')
 html_out = html_out.replace('<script src="ihco_map.js"></script>', f'<script>\n{js_embedded}\n</script>')
 
 with open(os.path.join(ROOT_DIR, 'index.html'), 'w', encoding='utf-8') as f:
