@@ -168,12 +168,12 @@ fetch('ihco_systems.json')
 // Orbit Controls (manual)
 // ─────────────────────────────────────────────
 const raycaster = new THREE.Raycaster();
-raycaster.params.Points.threshold = 5;
 const mouse = new THREE.Vector2();
 
 let isDragging = false, isRightDrag = false;
 let prevMouse = { x: 0, y: 0 };
 let spherical = { theta: 0, phi: Math.PI / 3, radius: 500 };
+raycaster.params.Points.threshold = raycaster.params.Points.threshold = spherical.radius * 0.005;
 let target = new THREE.Vector3(0, 0, 0);
 
 canvas.addEventListener('mousedown', e => {
