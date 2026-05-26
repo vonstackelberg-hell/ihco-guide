@@ -46,8 +46,8 @@ const texPresent    = createGlowTexture('rgb(51, 153, 255)');
 // Materials mit Glow + AdditiveBlending
 const matControlled = new THREE.PointsMaterial({
     color: 0x33ff33,
-    size: 8,
-    sizeAttenuation: true,
+    size: IHCO_CONFIG.matControlledSize,
+    sizeAttenuation: false,
     map: texControlled,
     transparent: true,
     depthWrite: false,
@@ -56,8 +56,8 @@ const matControlled = new THREE.PointsMaterial({
 
 const matPresent = new THREE.PointsMaterial({
     color: 0x3399ff,
-    size: 6,
-    sizeAttenuation: true,
+    size: IHCO_CONFIG.matPresentSize,
+    sizeAttenuation: false,
     map: texPresent,
     transparent: true,
     depthWrite: false,
@@ -146,12 +146,12 @@ function createInfiniteGrid(size1, size2, color, distance) {
 // size1 = feines Gitter: 50 scene-units = 100 Ly
 // size2 = grobes Gitter: 250 scene-units = 500 Ly
 const gridMesh = createInfiniteGrid(
-    50,
-    250,
+    IHCO_CONFIG.gridSize1 / 2,
+    IHCO_CONFIG.gridSize2 / 2,
     new THREE.Color(0.2, 0.5, 0.2),
     3000
 );
-gridMesh.visible = true;
+gridMesh.visible = IHCO_CONFIG.gridVisible;
 scene.add(gridMesh);
 
 // Grid-Achsen-Labels (X / Z, alle 500 Ly = 250 scene-units)
@@ -180,7 +180,7 @@ function buildGridLabels() {
             const sprite = new THREE.Sprite(spriteMat);
             sprite.position.set(xi, 0, zi);
             sprite.scale.set(60, 15, 1);
-            sprite.visible = true;
+            sprite.visible = IHCO_CONFIG.gridVisible;
             scene.add(sprite);
             gridLabels.push(sprite);
         }
@@ -195,7 +195,7 @@ const originSprite = new THREE.Sprite(new THREE.SpriteMaterial({
 }));
 originSprite.position.set(0, 0, 0);
 originSprite.scale.set(80, 20, 1);
-originSprite.visible = true;
+originSprite.visible = IHCO_CONFIG.gridVisible;
 scene.add(originSprite);
 gridLabels.push(originSprite);
 
@@ -281,8 +281,8 @@ canvas.addEventListener('mousemove', e => {
 
     const hoverDiv = document.getElementById('hover');
     const targets = [];
-    if (pointsControlled) targets.push(pointsControlled);
-    if (pointsPresent)    targets.push(pointsPresent);
+	if (pointsControlled && pointsControlled.visible) targets.push(pointsControlled);
+	if (pointsPresent && pointsPresent.visible)       targets.push(pointsPresent);
     const intersects = raycaster.intersectObjects(targets);
 
     if (intersects.length > 0) {
@@ -296,14 +296,24 @@ canvas.addEventListener('mousemove', e => {
                 x: ${s.x.toFixed(1)} y: ${s.y.toFixed(1)} z: ${s.z.toFixed(1)} Ly
                 ${s.updateTime ? '<br>🕒 ' + s.updateTime.substring(0, 10) : ''}
                 </span>`;
+			// Hover-Highlight
+			if (!hoverHighlight) {
+				const hgeo = new THREE.SphereGeometry(IHCO_CONFIG.starHighlightSize, 8, 8);
+				const hmat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+				hoverHighlight = new THREE.Mesh(hgeo, hmat);
+				scene.add(hoverHighlight);
+			}
+			hoverHighlight.position.set(s.x * 0.5, s.y * 0.5, s.z * 0.5);
+			hoverHighlight.visible = true;
         }
     } else {
         hoverDiv.innerHTML = '';
+		if (hoverHighlight) hoverHighlight.visible = false;
     }
 });
 
 canvas.addEventListener('wheel', e => {
-    spherical.radius = Math.max(50, Math.min(2000, spherical.radius + e.deltaY * 0.5));
+    spherical.radius = Math.max(IHCO_CONFIG.minRadius, Math.min(IHCO_CONFIG.maxRadius, spherical.radius + e.deltaY * IHCO_CONFIG.zoomSpeed));
 });
 
 window.addEventListener('resize', () => {
@@ -334,6 +344,7 @@ function toggleGroup(group) {
 
 // Highlight marker
 let highlightMesh = null;
+let hoverHighlight = null;
 
 function highlightSystem(name) {
     const s = systemData.find(d => d.name.toLowerCase() === name.toLowerCase());
@@ -341,8 +352,8 @@ function highlightSystem(name) {
 
     if (highlightMesh) { scene.remove(highlightMesh); highlightMesh = null; }
 
-    const geo = new THREE.SphereGeometry(4, 12, 12);
-    const mat = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    const geo = new THREE.SphereGeometry(IHCO_CONFIG.starHighlightSize, 12, 12);
+    const mat = new THREE.MeshBasicMaterial({ color: 0x00ffff });
     highlightMesh = new THREE.Mesh(geo, mat);
     highlightMesh.position.set(s.x * 0.5, s.y * 0.5, s.z * 0.5);
     scene.add(highlightMesh);

@@ -14,6 +14,9 @@ with open(os.path.join(ROOT_DIR, 'ihco_map.html'), 'r', encoding='utf-8') as f:
 with open(os.path.join(ROOT_DIR, 'ihco_map.css'), 'r', encoding='utf-8') as f:
     css = f.read()
 
+with open(os.path.join(ROOT_DIR, 'ihco_config.js'), 'r', encoding='utf-8') as f:
+    config_js = f.read()
+
 with open(os.path.join(ROOT_DIR, 'ihco_map.js'), 'r', encoding='utf-8') as f:
     js = f.read()
 
@@ -26,6 +29,7 @@ js_embedded = js.replace(
 # Alles in eine portable index.html zusammenbauen
 html_out = html
 html_out = html_out.replace('<link rel="stylesheet" href="ihco_map.css">', f'<style>\n{css}\n</style>')
+html_out = html_out.replace('<script src="ihco_config.js"></script>', f'<script>\n{config_js}\n</script>')
 html_out = html_out.replace('<script src="ihco_map.js"></script>', f'<script>\n{js_embedded}\n</script>')
 
 with open(os.path.join(ROOT_DIR, 'index.html'), 'w', encoding='utf-8') as f:
