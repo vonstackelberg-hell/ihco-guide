@@ -270,6 +270,101 @@ canvas.addEventListener('wheel', e => {
     if (selection) selection.onZoom(spherical.radius);
 });
 
+// ─────────────────────────────────────────────
+// Touch Controls
+// Ein Finger  → Orbit (wie Linksklick-Drag)
+// Zwei Finger → Pinch = Zoom, Pan = Verschieben
+// Tap         → Selektion (kein Hover auf Touch)
+// ─────────────────────────────────────────────
+let touchState = {
+    lastTouches: [],
+    hasMoved: false,
+    tapStartTime: 0
+};
+
+function getTouchCenter(touches) {
+    return {
+        x: (touches[0].clientX + touches[1].clientX) / 2,
+        y: (touches[0].clientY + touches[1].clientY) / 2
+    };
+}
+
+function getTouchDistance(touches) {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    touchState.lastTouches = Array.from(e.touches);
+    touchState.hasMoved = false;
+    touchState.tapStartTime = Date.now();
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    touchState.hasMoved = true;
+    const touches = Array.from(e.touches);
+
+    if (touches.length === 1 && touchState.lastTouches.length === 1) {
+        // Ein Finger → Orbit
+        const dx = touches[0].clientX - touchState.lastTouches[0].clientX;
+        const dy = touches[0].clientY - touchState.lastTouches[0].clientY;
+        spherical.theta -= dx * 0.005;
+        spherical.phi = Math.max(0.1, Math.min(Math.PI - 0.1, spherical.phi + dy * 0.005));
+
+    } else if (touches.length === 2 && touchState.lastTouches.length === 2) {
+        // Zwei Finger → Pinch-Zoom + Pan
+        const prevDist = getTouchDistance(touchState.lastTouches);
+        const currDist = getTouchDistance(touches);
+        const delta = prevDist - currDist;
+        spherical.radius = Math.max(
+            IHCO_CONFIG.minRadius,
+            Math.min(IHCO_CONFIG.maxRadius, spherical.radius + delta * IHCO_CONFIG.zoomSpeed)
+        );
+        if (selection) selection.onZoom(spherical.radius);
+
+        // Pan: Mittelpunkt-Verschiebung
+        const prevCenter = getTouchCenter(touchState.lastTouches);
+        const currCenter = getTouchCenter(touches);
+        target.x -= (currCenter.x - prevCenter.x) * 0.5;
+        target.y += (currCenter.y - prevCenter.y) * 0.5;
+    }
+
+    touchState.lastTouches = touches;
+}, { passive: false });
+
+canvas.addEventListener('touchend', e => {
+    e.preventDefault();
+    const elapsed = Date.now() - touchState.tapStartTime;
+
+    // Tap: kurz (<250ms) und kaum bewegt → Selektion
+    if (!touchState.hasMoved && elapsed < 250 && e.changedTouches.length === 1) {
+        const touch = e.changedTouches[0];
+        mouse.x =  (touch.clientX / window.innerWidth)  * 2 - 1;
+        mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+        raycaster.params.Points.threshold = IHCO_CONFIG.hoverThreshold * 2; // großzügiger für Touch
+        raycaster.setFromCamera(mouse, camera);
+
+        if (selection) {
+            const intersects = raycaster.intersectObjects(layers.getRaycastTargets());
+            if (intersects.length > 0) {
+                const s = intersects[0].object.userData[intersects[0].index];
+                if (s) {
+                    selection.select(s, spherical.radius);
+                    target.set(s.x * 0.5, s.y * 0.5, s.z * 0.5);
+                }
+            } else {
+                selection.clearSelection(spherical.radius);
+            }
+        }
+        raycaster.params.Points.threshold = IHCO_CONFIG.hoverThreshold; // zurücksetzen
+    }
+
+    touchState.lastTouches = Array.from(e.touches);
+}, { passive: false });
+
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
