@@ -22,10 +22,10 @@ new BackgroundStars(scene);
 // IHCO-Systemschicht
 const layers = new SystemLayer(scene);
 
-// Zuletzt gehoverten Stern merken (für Linien-Update beim Zoom)
-let lastHovered = null;
+// SelectionManager – wird nach dem JSON-Load initialisiert
+let selection = null;
 
-// 3D-Position → 2D Bildschirmkoordinaten
+// 3D-Position → 2D Bildschirmkoordinaten (wird auch von selection.js genutzt)
 function toScreenPos(x, y, z) {
     const vec = new THREE.Vector3(x * 0.5, y * 0.5, z * 0.5);
     vec.project(camera);
@@ -33,61 +33,6 @@ function toScreenPos(x, y, z) {
         x: ( vec.x * 0.5 + 0.5) * window.innerWidth,
         y: (-vec.y * 0.5 + 0.5) * window.innerHeight
     };
-}
-
-// SVG-Linien und Hover-Div aktualisieren
-function updateHoverUI(hoveredSystem, neighbors) {
-
-    // SVG leeren
-    while (svg.firstChild) svg.removeChild(svg.firstChild);
-
-    if (!hoveredSystem) {
-		document.getElementById('hover').innerHTML = '';
-        return;
-    }
-
-    // Hover-Div: gehoverten Stern
-    const color = hoveredSystem.controlled ? '#33ff33' : '#3399ff';
-    let html = `${hoveredSystem.name}<br>
-        <span style="color:${color}88">
-        ${hoveredSystem.controlled ? '● Kontrolliert' : '● Präsent'}<br>
-        x: ${hoveredSystem.x.toFixed(1)} y: ${hoveredSystem.y.toFixed(1)} z: ${hoveredSystem.z.toFixed(1)} Ly
-        ${hoveredSystem.updateTime ? '<br>🕒 ' + hoveredSystem.updateTime.substring(0, 10) : ''}
-        </span>`;
-
-    // Nachbarn anhängen mit ID für Linien-Ankerpunkt
-    if (neighbors.length > 0) {
-        html += `<hr style="border-color:#33ff3344;margin:6px 0;">`;
-        neighbors.forEach((n, i) => {
-            const nc = n.controlled ? '#33ff33' : '#3399ff';
-            html += `<span id="neighbor-${i}" style="color:${nc}99">● ${n.name}</span><br>`;
-        });
-    }
-    document.getElementById('hover').innerHTML = html;
-
-    // SVG-Linien: von jedem Namenseintrag zu seinem Stern
-    if (neighbors.length > 0) {
-        requestAnimationFrame(() => {
-            neighbors.forEach((n, i) => {
-                const el = document.getElementById(`neighbor-${i}`);
-                if (!el) return;
-                const r = el.getBoundingClientRect();
-                const originX = r.left;
-                const originY = r.top + r.height / 2;
-                const pos = toScreenPos(n.x, n.y, n.z);
-                if (pos.x < 0 || pos.x > window.innerWidth ||
-                    pos.y < 0 || pos.y > window.innerHeight) return;
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', originX);
-                line.setAttribute('y1', originY);
-                line.setAttribute('x2', pos.x);
-                line.setAttribute('y2', pos.y);
-                line.setAttribute('stroke', n.controlled ? '#33ff3366' : '#3399ff66');
-                line.setAttribute('stroke-width', '1');
-                svg.appendChild(line);
-            });
-        });
-    }
 }
 
 // ─────────────────────────────────────────────
@@ -192,7 +137,6 @@ function buildGridLabels() {
         }
     }
 
-    // Ursprungs-Label
     const originSprite = new THREE.Sprite(new THREE.SpriteMaterial({
         map: makeGridLabelTexture('0,0 Ly'), transparent: true, depthWrite: false, opacity: 0.8
     }));
@@ -235,6 +179,16 @@ fetch('ihco_systems.json')
         });
 
         layers.load(controlled, present);
+
+        // SelectionManager initialisieren – erst jetzt sind layers befüllt
+        selection = new SelectionManager(
+            svg,
+            document.getElementById('hover'),
+            layers
+        );
+
+        // Autocomplete-Daten bereitstellen
+        initSearch();
     });
 
 // ─────────────────────────────────────────────
@@ -255,10 +209,29 @@ canvas.addEventListener('mousedown', e => {
     prevMouse = { x: e.clientX, y: e.clientY };
 });
 canvas.addEventListener('contextmenu', e => e.preventDefault());
-canvas.addEventListener('mouseup', () => isDragging = false);
+canvas.addEventListener('mouseup', e => {
+    // Klick (kein Drag) → Selektion setzen oder aufheben
+    if (!hasDragged && e.button === 0 && selection) {
+        const intersects = raycaster.intersectObjects(layers.getRaycastTargets());
+        if (intersects.length > 0) {
+            const s = intersects[0].object.userData[intersects[0].index];
+            if (s) {
+                selection.select(s, spherical.radius);
+                target.set(s.x * 0.5, s.y * 0.5, s.z * 0.5);
+            }
+        } else {
+            selection.clearSelection(spherical.radius);
+        }
+    }
+    isDragging = false;
+    hasDragged = false;
+});
+
+let hasDragged = false;
 
 canvas.addEventListener('mousemove', e => {
     if (isDragging) {
+        hasDragged = true;
         const dx = e.clientX - prevMouse.x;
         const dy = e.clientY - prevMouse.y;
         if (isRightDrag) {
@@ -274,37 +247,27 @@ canvas.addEventListener('mousemove', e => {
     // Hover
     mouse.x =  (e.clientX / window.innerWidth)  * 2 - 1;
     mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-	raycaster.params.Points.threshold = IHCO_CONFIG.hoverThreshold;
-
+    raycaster.params.Points.threshold = IHCO_CONFIG.hoverThreshold;
     raycaster.setFromCamera(mouse, camera);
 
-    const intersects = raycaster.intersectObjects(layers.getRaycastTargets());
-	console.log('intersects:', intersects.length, 'lastHovered:', lastHovered);
+    if (!selection) return;
 
+    const intersects = raycaster.intersectObjects(layers.getRaycastTargets());
     if (intersects.length > 0) {
         const s = intersects[0].object.userData[intersects[0].index];
-        if (s) {
-            lastHovered = s;
-            const neighbors = layers.getNeighbors(s, spherical.radius);
-            updateHoverUI(s, neighbors);
-            layers.setHoverHighlight(s);
-        }
+        if (s) selection.setHover(s, spherical.radius);
     } else {
-        lastHovered = null;
-        updateHoverUI(null, []);
-        layers.setHoverHighlight(null);
+        selection.clearHover(spherical.radius);
     }
 });
 
 canvas.addEventListener('wheel', e => {
-    spherical.radius = Math.max(IHCO_CONFIG.minRadius, Math.min(IHCO_CONFIG.maxRadius, spherical.radius + e.deltaY * IHCO_CONFIG.zoomSpeed));
+    spherical.radius = Math.max(
+        IHCO_CONFIG.minRadius,
+        Math.min(IHCO_CONFIG.maxRadius, spherical.radius + e.deltaY * IHCO_CONFIG.zoomSpeed)
+    );
     raycaster.params.Points.threshold = IHCO_CONFIG.hoverThreshold;
-	
-    // Linien neu berechnen beim Zoomen
-    if (lastHovered) {
-        const neighbors = layers.getNeighbors(lastHovered, spherical.radius);
-        updateHoverUI(lastHovered, neighbors);
-    }
+    if (selection) selection.onZoom(spherical.radius);
 });
 
 window.addEventListener('resize', () => {
@@ -333,60 +296,56 @@ function toggleGroup(group) {
 // ─────────────────────────────────────────────
 // Suche / Autocomplete
 // ─────────────────────────────────────────────
-const searchInput = document.getElementById('search');
-const acDiv       = document.getElementById('autocomplete');
+function initSearch() {
+    const searchInput = document.getElementById('search');
+    const acDiv       = document.getElementById('autocomplete');
 
-function highlightSystem(name) {
-    const s = layers.setSearchHighlight(name);
-    if (!s) return;
+    searchInput.addEventListener('input', () => {
+        const val = searchInput.value.trim().toLowerCase();
+        acDiv.innerHTML = '';
+        if (!val) {
+            acDiv.style.display = 'none';
+            selection.clearSelection(spherical.radius);
+            return;
+        }
+        const matches = layers.systemData
+            .filter(s => s.name.toLowerCase().includes(val))
+            .slice(0, 10);
+        if (matches.length === 0) { acDiv.style.display = 'none'; return; }
+        acDiv.style.display = 'block';
+        matches.forEach(s => {
+            const div = document.createElement('div');
+            div.className = 'ac-item';
+            div.textContent = s.name;
+            div.addEventListener('click', () => {
+                searchInput.value = s.name;
+                acDiv.style.display = 'none';
+                selectByName(s.name);
+            });
+            acDiv.appendChild(div);
+        });
+    });
 
-    target.set(s.x * 0.5, s.y * 0.5, s.z * 0.5);
-    spherical.radius = 150;
-
-    document.getElementById('hover').innerHTML = `${s.name}<br>
-        <span style="color:#ffff0088">
-        ${s.controlled ? '● Kontrolliert' : '● Präsent'}<br>
-        x: ${s.x.toFixed(1)} y: ${s.y.toFixed(1)} z: ${s.z.toFixed(1)} Ly
-        ${s.updateTime ? '<br>🕒 ' + s.updateTime.substring(0, 10) : ''}
-        </span>`;
+    searchInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+            acDiv.style.display = 'none';
+            selectByName(searchInput.value.trim());
+        }
+        if (e.key === 'Escape') {
+            acDiv.style.display = 'none';
+            searchInput.value = '';
+            selection.clearSelection(spherical.radius);
+        }
+    });
 }
 
-searchInput.addEventListener('input', () => {
-    const val = searchInput.value.trim().toLowerCase();
-    acDiv.innerHTML = '';
-    if (!val) {
-        acDiv.style.display = 'none';
-        layers.clearSearchHighlight();
-        return;
-    }
-    const matches = layers.systemData.filter(s => s.name.toLowerCase().includes(val)).slice(0, 10);
-    if (matches.length === 0) { acDiv.style.display = 'none'; return; }
-    acDiv.style.display = 'block';
-    matches.forEach(s => {
-        const div = document.createElement('div');
-        div.className = 'ac-item';
-        div.textContent = s.name;
-        div.addEventListener('click', () => {
-            searchInput.value = s.name;
-            acDiv.style.display = 'none';
-            highlightSystem(s.name);
-        });
-        acDiv.appendChild(div);
-    });
-});
-
-searchInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter') {
-        acDiv.style.display = 'none';
-        highlightSystem(searchInput.value.trim());
-    }
-    if (e.key === 'Escape') {
-        acDiv.style.display = 'none';
-        searchInput.value = '';
-        layers.clearSearchHighlight();
-        document.getElementById('hover').innerHTML = '';
-    }
-});
+function selectByName(name) {
+    const s = layers.find(name);
+    if (!s) return;
+    selection.select(s, spherical.radius);
+    target.set(s.x * 0.5, s.y * 0.5, s.z * 0.5);
+    spherical.radius = 150;
+}
 
 // ─────────────────────────────────────────────
 // Animate
