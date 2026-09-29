@@ -45,7 +45,7 @@
           "y": -72.125,
           "z": -135.53125
         },
-        "updateTime": "2026-09-21T15:47:54Z"
+        "updateTime": "2026-09-27T19:04:12Z"
       },
       {
         "systemName": "HIP 11706",
@@ -105,7 +105,7 @@
           "y": -119.71875,
           "z": -103.90625
         },
-        "updateTime": "2026-07-13 04:27:49+00"
+        "updateTime": "2026-09-27T21:13:52Z"
       },
       {
         "systemName": "HIP 7728",
@@ -136,7 +136,7 @@
           "y": -102.71875,
           "z": -120.53125
         },
-        "updateTime": "2026-09-17T12:20:09Z"
+        "updateTime": "2026-09-28T16:49:51Z"
       },
       {
         "systemName": "HIP 103196",
@@ -168,7 +168,7 @@
           "y": -97.5625,
           "z": -105.34375
         },
-        "updateTime": "2026-09-08T12:48:50Z"
+        "updateTime": "2026-09-27T05:36:21Z"
       },
       {
         "systemName": "7 Camelopardalis",
@@ -200,7 +200,7 @@
           "y": -79.46875,
           "z": -120.625
         },
-        "updateTime": "2026-09-16T12:36:14Z"
+        "updateTime": "2026-09-27T23:06:24Z"
       },
       {
         "systemName": "HR 484",
@@ -232,7 +232,7 @@
           "y": -96.59375,
           "z": -105.8125
         },
-        "updateTime": "2026-09-08T12:47:58Z"
+        "updateTime": "2026-09-27T21:47:08Z"
       },
       {
         "systemName": "67 k Piscium",
@@ -242,7 +242,7 @@
           "y": -146.8125,
           "z": -118.34375
         },
-        "updateTime": "2026-09-20T22:12:32Z"
+        "updateTime": "2026-09-27T15:02:25Z"
       },
       {
         "systemName": "HIP 4531",
@@ -332,7 +332,7 @@
           "y": -86.25,
           "z": -107.4375
         },
-        "updateTime": "2026-09-20T15:34:50Z"
+        "updateTime": "2026-09-27T23:07:17Z"
       },
       {
         "systemName": "HIP 10446",
@@ -343,7 +343,7 @@
           "y": -105.625,
           "z": -147.78125
         },
-        "updateTime": "2026-09-21T19:24:54Z"
+        "updateTime": "2026-09-23T07:55:45Z"
       },
       {
         "systemName": "HIP 5339",
@@ -504,7 +504,7 @@
           "y": -136.1875,
           "z": -124.5625
         },
-        "updateTime": "2026-09-20T22:22:35Z"
+        "updateTime": "2026-09-27T17:27:36Z"
       },
       {
         "systemName": "Col 285 Sector RT-H b10-0",
@@ -563,7 +563,7 @@
           "y": -111.21875,
           "z": -96.5625
         },
-        "updateTime": "2026-09-13T17:16:58Z"
+        "updateTime": "2026-09-27T01:46:15Z"
       },
       {
         "systemName": "Arietis Sector LN-T b3-0",
@@ -606,7 +606,7 @@
           "y": -94.125,
           "z": -127.1875
         },
-        "updateTime": "2026-09-21T19:54:04Z"
+        "updateTime": "2026-09-27T16:56:01Z"
       },
       {
         "systemName": "Arietis Sector UZ-P b5-0",
@@ -617,7 +617,7 @@
           "y": -99.625,
           "z": -104.75
         },
-        "updateTime": "2026-09-09T10:02:41Z"
+        "updateTime": "2026-09-24T04:41:00Z"
       },
       {
         "systemName": "Arietis Sector KS-T b3-0",
@@ -638,7 +638,7 @@
           "y": -70.375,
           "z": -119.78125
         },
-        "updateTime": "2026-08-22 19:38:02+00"
+        "updateTime": "2026-09-24T13:24:13Z"
       },
       {
         "systemName": "Arietis Sector NN-T b3-0",
@@ -660,7 +660,7 @@
           "y": -96.46875,
           "z": -108.71875
         },
-        "updateTime": "2026-09-20T15:01:37Z"
+        "updateTime": "2026-09-25T03:05:56Z"
       },
       {
         "systemName": "Arietis Sector VZ-P b5-0",
@@ -670,7 +670,7 @@
           "y": -103.6875,
           "z": -103.78125
         },
-        "updateTime": "2026-09-13T20:41:45Z"
+        "updateTime": "2026-09-26T20:01:36Z"
       },
       {
         "systemName": "Arietis Sector LS-T b3-0",
@@ -680,7 +680,7 @@
           "y": -67.875,
           "z": -137.0
         },
-        "updateTime": "2026-09-12T18:43:08Z"
+        "updateTime": "2026-09-27T12:42:22Z"
       },
       {
         "systemName": "Enets",
@@ -702,7 +702,7 @@
           "y": -176.0625,
           "z": -139.5625
         },
-        "updateTime": "2026-09-17T05:12:25Z"
+        "updateTime": "2026-09-24T06:30:52Z"
       },
       {
         "systemName": "Wolf 93",
@@ -723,7 +723,17 @@
           "y": -84.21875,
           "z": -119.53125
         },
-        "updateTime": "2026-09-21T21:54:01Z"
+        "updateTime": "2026-09-28T19:22:48Z"
+      },
+      {
+        "systemName": "BSM2011 e108",
+        "systemId64": 676322157385,
+        "isControllingFaction": true,
+        "coords": {
+          "x": 409.28125,
+          "y": -322.6875,
+          "z": -1510.625
+        }
       },
       {
         "systemName": "Plio Aihm AQ-G b11-0",
@@ -743,7 +753,7 @@
           "y": -88.0625,
           "z": -93.0
         },
-        "updateTime": "2026-09-20T15:45:08Z"
+        "updateTime": "2026-09-26T22:20:46Z"
       },
       {
         "systemName": "HR 303",
@@ -815,7 +825,7 @@
           "y": -106.875,
           "z": -90.78125
         },
-        "updateTime": "2026-09-16T20:07:48Z"
+        "updateTime": "2026-09-23T21:15:28Z"
       },
       {
         "systemName": "HIP 10682",
@@ -825,7 +835,7 @@
           "y": -101.5,
           "z": -137.65625
         },
-        "updateTime": "2026-09-21T01:53:58Z"
+        "updateTime": "2026-09-28T14:04:37Z"
       },
       {
         "systemName": "HIP 7564",
@@ -835,7 +845,7 @@
           "y": -85.34375,
           "z": -84.875
         },
-        "updateTime": "2026-09-21T17:07:04Z"
+        "updateTime": "2026-09-28T18:40:40Z"
       },
       {
         "systemName": "HIP 6668",
@@ -867,7 +877,7 @@
           "y": -92.125,
           "z": -103.3125
         },
-        "updateTime": "2026-09-01 18:56:13+00"
+        "updateTime": "2026-09-25T14:57:53Z"
       },
       {
         "systemName": "HIP 6240",
@@ -908,7 +918,7 @@
           "y": -79.9375,
           "z": -82.0625
         },
-        "updateTime": "2026-09-12T04:39:29Z"
+        "updateTime": "2026-09-25T10:35:11Z"
       },
       {
         "systemName": "Synuefe FJ-F d12-32",
@@ -918,7 +928,7 @@
           "y": -268.3125,
           "z": -19.46875
         },
-        "updateTime": "2026-09-08T14:58:10Z"
+        "updateTime": "2026-09-28T19:39:29Z"
       },
       {
         "systemName": "HIP 6675",
@@ -972,7 +982,7 @@
           "y": -97.625,
           "z": -138.125
         },
-        "updateTime": "2026-09-21T14:20:12Z"
+        "updateTime": "2026-09-27T17:59:45Z"
       },
       {
         "systemName": "HIP 7808",
@@ -1004,7 +1014,7 @@
           "y": -74.625,
           "z": -128.71875
         },
-        "updateTime": "2026-09-21T21:44:33Z"
+        "updateTime": "2026-09-28T05:39:01Z"
       },
       {
         "systemName": "HIP 6975",
@@ -1014,7 +1024,7 @@
           "y": -97.0625,
           "z": -87.75
         },
-        "updateTime": "2026-09-02 16:08:09+00"
+        "updateTime": "2026-09-28T11:02:26Z"
       },
       {
         "systemName": "HIP 100014",
@@ -1025,7 +1035,7 @@
           "y": -148.1875,
           "z": 261.40625
         },
-        "updateTime": "2026-09-19T18:36:16Z"
+        "updateTime": "2026-09-25T16:04:46Z"
       },
       {
         "systemName": "Wredguia KC-D d12-40",
@@ -1046,7 +1056,7 @@
           "y": -87.25,
           "z": -123.28125
         },
-        "updateTime": "2026-09-21T16:06:21Z"
+        "updateTime": "2026-09-27T10:46:18Z"
       },
       {
         "systemName": "HIP 7090",
@@ -1088,7 +1098,7 @@
           "y": -91.375,
           "z": -101.03125
         },
-        "updateTime": "2026-09-20T01:50:27Z"
+        "updateTime": "2026-09-28T20:10:45Z"
       },
       {
         "systemName": "Synuefai CX-V c18-5",
@@ -1108,7 +1118,7 @@
           "y": -169.59375,
           "z": -132.25
         },
-        "updateTime": "2026-08-28 02:28:22+00"
+        "updateTime": "2026-09-22T08:09:58Z"
       },
       {
         "systemName": "Arietis Sector CQ-Y c5",
@@ -1119,7 +1129,7 @@
           "y": -91.65625,
           "z": -145.96875
         },
-        "updateTime": "2026-09-21T21:46:46Z"
+        "updateTime": "2026-09-28T21:35:25Z"
       },
       {
         "systemName": "Arietis Sector GW-W c1-5",
@@ -1129,7 +1139,7 @@
           "y": -102.28125,
           "z": -136.46875
         },
-        "updateTime": "2026-09-15T09:30:13Z"
+        "updateTime": "2026-09-24T23:58:39Z"
       },
       {
         "systemName": "HIP 5952",
@@ -1140,7 +1150,7 @@
           "y": -143.625,
           "z": -101.0625
         },
-        "updateTime": "2026-09-18T16:05:53Z"
+        "updateTime": "2026-09-28T16:39:35Z"
       },
       {
         "systemName": "Col 285 Sector IH-V d2-49",
@@ -1191,7 +1201,7 @@
           "y": -127.53125,
           "z": -89.875
         },
-        "updateTime": "2026-09-08T18:57:23Z"
+        "updateTime": "2026-09-25T15:20:49Z"
       },
       {
         "systemName": "Arietis Sector JC-V c2-6",
@@ -1244,7 +1254,7 @@
           "y": -127.5625,
           "z": -143.5625
         },
-        "updateTime": "2026-09-20T01:30:41Z"
+        "updateTime": "2026-09-27T16:01:16Z"
       },
       {
         "systemName": "Col 285 Sector KC-V d2-54",
@@ -1305,7 +1315,7 @@
           "y": -83.28125,
           "z": -118.28125
         },
-        "updateTime": "2026-09-14T21:35:20Z"
+        "updateTime": "2026-09-23T16:59:21Z"
       },
       {
         "systemName": "Hyades Sector GR-W d1-61",
@@ -1325,7 +1335,7 @@
           "y": -148.0,
           "z": -97.34375
         },
-        "updateTime": "2026-05-31 09:18:16+00"
+        "updateTime": "2026-09-26T07:55:11Z"
       },
       {
         "systemName": "Col 285 Sector IH-V d2-65",
@@ -1385,7 +1395,7 @@
           "y": -81.90625,
           "z": -117.78125
         },
-        "updateTime": "2026-08-28 12:58:11+00"
+        "updateTime": "2026-09-22T20:09:18Z"
       },
       {
         "systemName": "Col 285 Sector KC-V d2-67",
@@ -1425,7 +1435,7 @@
           "y": -142.6875,
           "z": -103.96875
         },
-        "updateTime": "2026-06-14 19:23:36+00"
+        "updateTime": "2026-09-25T18:21:42Z"
       },
       {
         "systemName": "Col 285 Sector TT-R c4-9",
@@ -1464,7 +1474,7 @@
           "y": -137.125,
           "z": 245.375
         },
-        "updateTime": "2026-09-19T18:18:16Z"
+        "updateTime": "2026-09-28T21:58:47Z"
       },
       {
         "systemName": "Col 285 Sector TT-R c4-10",
@@ -1537,7 +1547,7 @@
           "y": -85.9375,
           "z": -132.75
         },
-        "updateTime": "2026-09-21T16:50:55Z"
+        "updateTime": "2026-09-28T16:23:22Z"
       },
       {
         "systemName": "Col 285 Sector II-I b10-1",
@@ -1606,7 +1616,7 @@
           "y": -60.90625,
           "z": -132.125
         },
-        "updateTime": "2026-09-07 09:07:39+00"
+        "updateTime": "2026-09-27T20:19:51Z"
       },
       {
         "systemName": "Col 285 Sector KY-G b11-1",
@@ -1617,7 +1627,7 @@
           "y": -59.0,
           "z": -119.71875
         },
-        "updateTime": "2026-08-19 09:00:52+00"
+        "updateTime": "2026-09-24T12:45:40Z"
       },
       {
         "systemName": "Col 285 Sector RT-H b10-1",
@@ -1637,7 +1647,7 @@
           "y": -152.03125,
           "z": -120.59375
         },
-        "updateTime": "2026-07-18 13:48:30+00"
+        "updateTime": "2026-09-28T15:11:28Z"
       },
       {
         "systemName": "Col 285 Sector TE-G b11-1",
@@ -1647,7 +1657,7 @@
           "y": -142.09375,
           "z": -124.6875
         },
-        "updateTime": "2026-09-20T16:57:53Z"
+        "updateTime": "2026-09-27T17:26:44Z"
       },
       {
         "systemName": "Col 285 Sector ND-I b10-1",
@@ -1721,7 +1731,7 @@
           "y": -62.65625,
           "z": -122.25
         },
-        "updateTime": "2026-09-20T16:26:33Z"
+        "updateTime": "2026-09-26T01:13:52Z"
       },
       {
         "systemName": "Arietis Sector NN-T b3-1",
@@ -1732,7 +1742,7 @@
           "y": -97.6875,
           "z": -137.28125
         },
-        "updateTime": "2026-09-19T08:43:32Z"
+        "updateTime": "2026-09-28T21:32:24Z"
       },
       {
         "systemName": "Malayat",
@@ -1743,7 +1753,7 @@
           "y": -85.78125,
           "z": -123.15625
         },
-        "updateTime": "2026-09-21T13:05:02Z"
+        "updateTime": "2026-09-27T10:48:38Z"
       },
       {
         "systemName": "Arietis Sector VZ-P b5-1",
@@ -1754,7 +1764,7 @@
           "y": -103.71875,
           "z": -101.09375
         },
-        "updateTime": "2026-09-16T02:38:12Z"
+        "updateTime": "2026-09-24T18:49:55Z"
       },
       {
         "systemName": "San Guojin",
@@ -1764,7 +1774,7 @@
           "y": -78.34375,
           "z": -88.15625
         },
-        "updateTime": "2026-09-10T15:23:22Z"
+        "updateTime": "2026-09-28T18:01:36Z"
       },
       {
         "systemName": "Arietis Sector ND-S b4-1",
@@ -1806,7 +1816,7 @@
           "y": -82.0625,
           "z": -115.125
         },
-        "updateTime": "2026-09-19T08:53:38Z"
+        "updateTime": "2026-09-27T01:48:18Z"
       },
       {
         "systemName": "Col 285 Sector IH-V d2-84",
@@ -1827,7 +1837,7 @@
           "y": -156.65625,
           "z": -136.0625
         },
-        "updateTime": "2026-09-03 06:01:12+00"
+        "updateTime": "2026-09-25T02:36:53Z"
       },
       {
         "systemName": "LBN 623 Sector FW-W d1-85",
@@ -1860,7 +1870,7 @@
           "y": -89.125,
           "z": -120.5625
         },
-        "updateTime": "2026-09-17T12:08:44Z"
+        "updateTime": "2026-09-27T22:49:15Z"
       },
       {
         "systemName": "Col 285 Sector QY-R c4-11",
@@ -1870,7 +1880,7 @@
           "y": -106.28125,
           "z": -149.8125
         },
-        "updateTime": "2026-09-20T06:21:51Z"
+        "updateTime": "2026-09-26T05:07:59Z"
       },
       {
         "systemName": "Col 285 Sector PD-S c4-11",
@@ -1902,7 +1912,7 @@
           "y": -134.71875,
           "z": -107.1875
         },
-        "updateTime": "2026-07-24 19:03:14+00"
+        "updateTime": "2026-09-26T20:02:16Z"
       },
       {
         "systemName": "Arietis Sector FW-W c1-11",
@@ -1955,7 +1965,7 @@
           "y": -168.1875,
           "z": -118.0625
         },
-        "updateTime": "2026-09-20T04:38:11Z"
+        "updateTime": "2026-09-27T05:37:05Z"
       },
       {
         "systemName": "Djabelmalo",
@@ -2017,7 +2027,7 @@
           "y": -99.375,
           "z": -152.375
         },
-        "updateTime": "2026-07-12 11:27:53+00"
+        "updateTime": "2026-09-26T02:28:07Z"
       },
       {
         "systemName": "Arietis Sector FW-W c1-12",
@@ -2049,7 +2059,7 @@
           "y": -98.375,
           "z": -129.625
         },
-        "updateTime": "2026-09-19T19:19:40Z"
+        "updateTime": "2026-09-25T04:59:58Z"
       },
       {
         "systemName": "Arietis Sector HR-W d1-103",
@@ -2123,7 +2133,7 @@
           "y": -94.21875,
           "z": -95.90625
         },
-        "updateTime": "2026-09-09T14:14:56Z"
+        "updateTime": "2026-09-26T22:31:45Z"
       },
       {
         "systemName": "Col 285 Sector TT-R c4-14",
@@ -2144,7 +2154,7 @@
           "y": -104.4375,
           "z": -83.875
         },
-        "updateTime": "2026-08-29 22:14:13+00"
+        "updateTime": "2026-09-26T12:29:22Z"
       },
       {
         "systemName": "Col 285 Sector SJ-Q c5-15",
@@ -2154,7 +2164,7 @@
           "y": -99.8125,
           "z": -122.6875
         },
-        "updateTime": "2026-09-09T21:38:56Z"
+        "updateTime": "2026-09-23T06:25:42Z"
       },
       {
         "systemName": "Pegasi Sector ZJ-A c15",
@@ -2195,7 +2205,7 @@
           "y": -81.3125,
           "z": -106.4375
         },
-        "updateTime": "2026-07-19 13:04:17+00"
+        "updateTime": "2026-09-22T17:28:18Z"
       },
       {
         "systemName": "Veil West Sector JS-T c3-17",
@@ -2226,7 +2236,7 @@
           "y": -137.3125,
           "z": -118.75
         },
-        "updateTime": "2026-09-20T22:34:34Z"
+        "updateTime": "2026-09-27T17:03:25Z"
       },
       {
         "systemName": "Pegasi Sector AK-A c17",
@@ -2247,7 +2257,7 @@
           "y": -109.15625,
           "z": -115.96875
         },
-        "updateTime": "2026-09-19T19:32:06Z"
+        "updateTime": "2026-09-27T22:25:39Z"
       },
       {
         "systemName": "Plio Aihm PW-W d1-146",
@@ -2339,7 +2349,7 @@
           "y": -152.65625,
           "z": -126.28125
         },
-        "updateTime": "2026-08-09 12:48:44+00"
+        "updateTime": "2026-09-28T04:55:03Z"
       },
       {
         "systemName": "Col 285 Sector VZ-F b11-2",
@@ -2370,7 +2380,7 @@
           "y": 40.1875,
           "z": -321.59375
         },
-        "updateTime": "2026-09-21T21:53:29Z"
+        "updateTime": "2026-09-24T20:26:08Z"
       },
       {
         "systemName": "Col 285 Sector WZ-F b11-2",
@@ -2412,7 +2422,7 @@
           "y": -85.71875,
           "z": -103.84375
         },
-        "updateTime": "2026-09-20T14:44:31Z"
+        "updateTime": "2026-09-24T12:36:30Z"
       },
       {
         "systemName": "Arietis Sector KS-T b3-2",
@@ -2444,7 +2454,7 @@
           "y": -90.1875,
           "z": -102.25
         },
-        "updateTime": "2026-09-19T05:11:35Z"
+        "updateTime": "2026-09-22T01:33:36Z"
       },
       {
         "systemName": "Arietis Sector LS-T b3-2",
@@ -2455,7 +2465,7 @@
           "y": -74.53125,
           "z": -135.25
         },
-        "updateTime": "2026-09-19T02:41:38Z"
+        "updateTime": "2026-09-27T23:05:31Z"
       },
       {
         "systemName": "Arietis Sector PY-R b4-2",
@@ -2552,13 +2562,12 @@
       {
         "systemName": "Veil West Sector JS-T c3-21",
         "systemId64": 5853872558898,
-        "isControllingFaction": true,
         "coords": {
           "x": -1427.53125,
           "y": -140.65625,
           "z": 464.21875
         },
-        "updateTime": "2026-07-29 10:01:54+00"
+        "updateTime": "2026-09-24T20:47:09Z"
       },
       {
         "systemName": "Swoiwns CU-D c1-21",
@@ -2588,7 +2597,7 @@
           "y": -92.21875,
           "z": -124.71875
         },
-        "updateTime": "2026-09-19T16:07:33Z"
+        "updateTime": "2026-09-27T11:08:14Z"
       },
       {
         "systemName": "Angakutasa",
@@ -2599,7 +2608,7 @@
           "y": -87.8125,
           "z": -100.15625
         },
-        "updateTime": "2026-09-21T16:07:18Z"
+        "updateTime": "2026-09-22T01:40:15Z"
       },
       {
         "systemName": "Arietis Sector FW-W c1-23",
@@ -2610,7 +2619,7 @@
           "y": -82.75,
           "z": -143.6875
         },
-        "updateTime": "2026-09-15T17:57:38Z"
+        "updateTime": "2026-09-27T08:23:25Z"
       },
       {
         "systemName": "Equaesta",
@@ -2621,7 +2630,7 @@
           "y": -93.46875,
           "z": -100.46875
         },
-        "updateTime": "2026-08-28 18:00:47+00"
+        "updateTime": "2026-09-25T21:15:22Z"
       },
       {
         "systemName": "Prooe Drye AV-K b14-3",
@@ -2692,7 +2701,7 @@
           "y": -151.625,
           "z": -130.5
         },
-        "updateTime": "2026-09-20T22:17:08Z"
+        "updateTime": "2026-09-27T14:57:54Z"
       },
       {
         "systemName": "Col 285 Sector VZ-F b11-3",
@@ -2755,7 +2764,7 @@
           "y": -114.40625,
           "z": -97.8125
         },
-        "updateTime": "2026-06-21 16:23:32+00"
+        "updateTime": "2026-09-28T05:12:04Z"
       },
       {
         "systemName": "Arietis Sector HH-V b2-3",
@@ -2798,7 +2807,7 @@
           "y": -86.34375,
           "z": -101.125
         },
-        "updateTime": "2026-09-20T23:20:43Z"
+        "updateTime": "2026-09-28T20:18:55Z"
       },
       {
         "systemName": "Arietis Sector KS-T b3-3",
@@ -2820,7 +2829,7 @@
           "y": -105.84375,
           "z": -104.59375
         },
-        "updateTime": "2026-09-20T18:21:28Z"
+        "updateTime": "2026-09-28T21:05:26Z"
       },
       {
         "systemName": "Arietis Sector NN-T b3-3",
@@ -2831,7 +2840,7 @@
           "y": -87.6875,
           "z": -140.0625
         },
-        "updateTime": "2026-09-20T22:32:19Z"
+        "updateTime": "2026-09-28T08:15:18Z"
       },
       {
         "systemName": "Arietis Sector RT-R b4-3",
@@ -2842,7 +2851,7 @@
           "y": -93.0625,
           "z": -117.3125
         },
-        "updateTime": "2026-09-13T08:25:28Z"
+        "updateTime": "2026-09-22T01:50:52Z"
       },
       {
         "systemName": "Arietis Sector ZF-O b6-3",
@@ -2852,7 +2861,7 @@
           "y": -102.03125,
           "z": -73.03125
         },
-        "updateTime": "2026-08-29 22:30:06+00"
+        "updateTime": "2026-09-28T18:36:54Z"
       },
       {
         "systemName": "Arietis Sector LS-T b3-3",
@@ -2862,7 +2871,7 @@
           "y": -71.0625,
           "z": -141.4375
         },
-        "updateTime": "2026-09-19T20:01:58Z"
+        "updateTime": "2026-09-26T17:26:06Z"
       },
       {
         "systemName": "Zao Hi",
@@ -2873,7 +2882,7 @@
           "y": -84.3125,
           "z": -115.3125
         },
-        "updateTime": "2026-09-12T03:05:12Z"
+        "updateTime": "2026-09-22T21:53:54Z"
       },
       {
         "systemName": "Hyades Sector DW-N b6-3",
@@ -2894,7 +2903,7 @@
           "y": -87.28125,
           "z": -114.90625
         },
-        "updateTime": "2026-08-29 14:12:24+00"
+        "updateTime": "2026-09-27T21:19:09Z"
       },
       {
         "systemName": "Vucasset",
@@ -2904,7 +2913,7 @@
           "y": -67.4375,
           "z": -124.3125
         },
-        "updateTime": "2026-09-20T08:13:39Z"
+        "updateTime": "2026-09-28T19:37:54Z"
       },
       {
         "systemName": "Plio Aihm QA-Z c32",
@@ -2985,7 +2994,7 @@
           "y": -140.28125,
           "z": -119.46875
         },
-        "updateTime": "2026-09-09T15:07:23Z"
+        "updateTime": "2026-09-27T01:18:22Z"
       },
       {
         "systemName": "Arietis Sector HH-V b2-4",
@@ -3037,7 +3046,7 @@
           "y": -123.40625,
           "z": -107.9375
         },
-        "updateTime": "2026-08-16 16:11:06+00"
+        "updateTime": "2026-09-25T00:55:53Z"
       },
       {
         "systemName": "Arietis Sector MN-T b3-4",
@@ -3058,7 +3067,7 @@
           "y": -72.71875,
           "z": -141.3125
         },
-        "updateTime": "2026-09-21T21:16:02Z"
+        "updateTime": "2026-09-28T06:21:23Z"
       },
       {
         "systemName": "Arietis Sector XU-P b5-4",
@@ -3080,7 +3089,7 @@
           "y": -92.8125,
           "z": -120.40625
         },
-        "updateTime": "2026-09-20T01:42:00Z"
+        "updateTime": "2026-09-27T00:49:42Z"
       },
       {
         "systemName": "Arietis Sector VZ-P b5-4",
@@ -3091,7 +3100,7 @@
           "y": -92.40625,
           "z": -88.125
         },
-        "updateTime": "2026-09-08T05:00:52Z"
+        "updateTime": "2026-09-27T01:55:59Z"
       },
       {
         "systemName": "Arietis Sector ZF-O b6-4",
@@ -3113,7 +3122,7 @@
           "y": -76.09375,
           "z": -127.8125
         },
-        "updateTime": "2026-09-19T14:29:27Z"
+        "updateTime": "2026-09-24T15:47:26Z"
       },
       {
         "systemName": "Arietis Sector PY-R b4-4",
@@ -3134,7 +3143,7 @@
           "y": -64.6875,
           "z": -116.84375
         },
-        "updateTime": "2026-09-11T04:38:03Z"
+        "updateTime": "2026-09-24T15:03:13Z"
       },
       {
         "systemName": "Ot",
@@ -3144,7 +3153,7 @@
           "y": -71.9375,
           "z": -8.25
         },
-        "updateTime": "2026-09-21T21:01:54Z"
+        "updateTime": "2026-09-25T14:53:22Z"
       },
       {
         "systemName": "Wredguia OO-M b48-5",
@@ -3185,7 +3194,7 @@
           "y": -124.34375,
           "z": -136.90625
         },
-        "updateTime": "2026-09-19T19:36:30Z"
+        "updateTime": "2026-09-22T02:22:40Z"
       },
       {
         "systemName": "Col 285 Sector GS-I b10-5",
@@ -3196,7 +3205,7 @@
           "y": -64.1875,
           "z": -127.75
         },
-        "updateTime": "2026-08-12 20:59:16+00"
+        "updateTime": "2026-09-27T15:01:00Z"
       },
       {
         "systemName": "Col 285 Sector HC-K b9-5",
@@ -3227,7 +3236,7 @@
           "y": -68.71875,
           "z": -144.25
         },
-        "updateTime": "2026-09-07 09:04:55+00"
+        "updateTime": "2026-09-28T19:35:14Z"
       },
       {
         "systemName": "Arietis Sector OY-R b4-5",
@@ -3237,7 +3246,7 @@
           "y": -76.34375,
           "z": -113.4375
         },
-        "updateTime": "2026-09-12T20:49:40Z"
+        "updateTime": "2026-09-22T22:29:55Z"
       },
       {
         "systemName": "Arietis Sector IX-T b3-5",
@@ -3248,7 +3257,7 @@
           "y": -64.40625,
           "z": -136.21875
         },
-        "updateTime": "2026-09-13T17:27:32Z"
+        "updateTime": "2026-09-28T10:58:27Z"
       },
       {
         "systemName": "Arietis Sector TO-R b4-5",
@@ -3258,7 +3267,7 @@
           "y": -109.34375,
           "z": -123.9375
         },
-        "updateTime": "2026-09-16T20:19:28Z"
+        "updateTime": "2026-09-22T01:33:57Z"
       },
       {
         "systemName": "Arietis Sector BB-O b6-5",
@@ -3300,7 +3309,7 @@
           "y": -71.6875,
           "z": -134.65625
         },
-        "updateTime": "2026-09-20T11:51:01Z"
+        "updateTime": "2026-09-25T23:11:31Z"
       },
       {
         "systemName": "Arietis Sector PY-R b4-5",
@@ -3338,12 +3347,13 @@
       {
         "systemName": "Swoiwns EO-H b2-6",
         "systemId64": 13863214523921,
+        "isControllingFaction": true,
         "coords": {
           "x": -135.3125,
           "y": -144.375,
           "z": 256.375
         },
-        "updateTime": "2026-09-19T18:42:40Z"
+        "updateTime": "2026-09-28T21:09:36Z"
       },
       {
         "systemName": "Arietis Sector JS-T b3-6",
@@ -3376,7 +3386,7 @@
           "y": -61.78125,
           "z": -120.03125
         },
-        "updateTime": "2026-08-11 14:01:50+00"
+        "updateTime": "2026-09-23T00:31:31Z"
       },
       {
         "systemName": "Arietis Sector JS-T b3-7",
@@ -3407,7 +3417,7 @@
           "y": 9.75,
           "z": -43.8125
         },
-        "updateTime": "2026-09-21T06:01:10Z"
+        "updateTime": "2026-09-28T10:36:06Z"
       },
       {
         "systemName": "DM99 47.2",
